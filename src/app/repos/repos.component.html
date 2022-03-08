@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+
+<!-- <button type="button">Yoooooooooooooo</button><br> -->
+
+<div *ngIf="userLoggedIn; else userloggedOut">
+  Hello User
+</div>
+<ng-template #userloggedOut>
+  Hello User, Login
+</ng-template>
+
+<h2 class="md-display-3">Project Name</h2>
+
+<ul class="heroes">
+  <li *ngFor="let project of projectNameArray"><br>
+    <button  type="button" (click)="onSelect(project)">
+      <span class="name">
+        {{project}}
+      </span>
+    </button>
+  </li>
+</ul>
+
+
+
+
+<div *ngIf="selectedProject">
+  <h2>Project Details</h2>
+  <div>
+    Project name: {{selectedProject}} <br><br><br>
+    <button type="button" (click)="Fourth_Function()">Confirm</button>
+
+    <!-- <button type="button" (click)="goBack()">Go back</button> -->
+  </div>
+</div>
+
+<div *ngIf="confirm; else notconfirm" >
+  <table>
+    <h4>Dependencies</h4>
+    <tr>
+      <th>keys</th>
+      <th>values</th>
+    </tr>
+    <tr *ngFor="let data of dependencies | keyvalue">
+      <td>
+        {{data.key}}
+      </td> 
+      <td>
+        {{data.value}}
+      </td> 
+    </tr>
+<h4>devDependencies</h4>
+    <tr>
+      <th>keys</th>
+      <th>values</th>
+    </tr>
+    <tr *ngFor="let data of devDependencies | keyvalue">
+      <td>
+        {{data.key}}
+      </td>
+      <td>
+        {{data.value}}
+      </td>
+    </tr>
+  </table>
+</div><br>
+
+<ng-template #notconfirm>
+<h4>
+  Sorry but there is no json file in {{selectedProject}} project......!
+</h4>
+</ng-template>
+
+<!-- <p>{{projectNameArray}}</p> -->
