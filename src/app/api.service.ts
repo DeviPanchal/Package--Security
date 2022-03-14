@@ -22,7 +22,7 @@ export class ApiService {
   // }
   // //------------------------------------------------------------------------
 
-  repoName = "https://api.github.com/users/deviPanchal"; 
+  repoName = "https://api.github.com/users/devipanchal"; 
   splitted = this.repoName.split("/"); 
   userName = this.splitted[4]
 

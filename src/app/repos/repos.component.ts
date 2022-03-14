@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// import { Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { ApiService } from '../api.service';
 import { SharedService } from '../shared.service';
-
 @Component({
   selector: 'app-repos',
   templateUrl: './repos.component.html',
@@ -17,10 +16,13 @@ export class ReposComponent implements OnInit {
     // private location: Location
     ){
     this.shared.getFirst_Func().subscribe(() =>{
-    this.First_Function()
+    this.First_Function_repos_url()
   });
+    
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.First_Function_repos_url();
+  }
 
   userLoggedIn = true;
   userloggedOut = true;
@@ -30,25 +32,13 @@ export class ReposComponent implements OnInit {
 
   repoInfo: any = {};
   repoInfoArray: any = [];
-
-  contentInfo: any = {};
-  contentInfoArray: any = [];
-
-  confirm!: any;
-  notconfirm?: boolean;
-
-  PackageInfo: any = {};
-
-  getSingleObjectRepoInfo: any = [];
-
-  dependencies: any = {};
-  devDependencies: any = {}
-
+  
   URLstring: any;
   splitted_URLstring: any;
   projectName: any
   projectNameArray: any[] = []
 
+  
   message: any[] = []
 
   //variables complete
@@ -68,15 +58,15 @@ export class ReposComponent implements OnInit {
   // 1st method complete
 
   // The Main functions strats from here...
-  First_Function() {
-    debugger
+  First_Function_repos_url() {
+    
     this.api.getUserInfo().subscribe(data => {
       this.userInfo = data;
 
       //searching....repos_url
       if (this.userInfo?.repos_url) {
         
-        this.Second_Function()
+        this.Second_Function_repos_info()
       }
       else{
         console.log(false)
@@ -84,8 +74,8 @@ export class ReposComponent implements OnInit {
     });
   }
 
-  Second_Function() {
-    debugger
+  Second_Function_repos_info() {
+    
     this.api.getReposInfo().subscribe(async (data) => {
       this.repoInfo = data;
 
@@ -94,13 +84,13 @@ export class ReposComponent implements OnInit {
         this.repoInfoArray = value
         
         //seraching....contents_url
-        this.Third_Function()
+        this.Third_Function_content_url()
       }
     });
   }
 
-  Third_Function() {
-    debugger
+  Third_Function_content_url() {
+    
     if (this.repoInfoArray?.contents_url) {
       this.URL()
     }
@@ -112,63 +102,13 @@ export class ReposComponent implements OnInit {
   }
 
 //---------------------------USERS CHOICE---------------------------------//
-  selectedProject!: any;
-  onSelect(project: any) {
-    this.selectedProject = project;
+  // selectedProject!: any;
+  onSelectProject(project: any) {
+    this.projectSend(project)
   }
 //------------------------------------------------------------------------//
 
-
- 
-
-//   //After user selected the Project
-  Fourth_Function() {
-    (this.api.getcontentInfo(this.selectedProject)).subscribe(async (data) => {
-     this.contentInfo = data;
-     
-      // contents_url have array of objects
-      for (let id of this.contentInfo) {
-        this.contentInfoArray = id
-        
-        //seraching....name: "package.json"
-        this.Fifth_Function()
-      }
-    })
+  projectSend(data: string) {
+    this.shared.sendproject_to_repoDetails(data)
   }
-
-  Fifth_Function() {
-    if (this.contentInfoArray.name == "package.json") {
-      this.confirm= this.selectedProject;
-      // this.notconfirm = false;
-
-      //At every iteration if value is true "Third_callback" funcion is called
-      this.Sixth_Function()
-      console.log(true)
-
-    }
-    else {
-      this.notconfirm = false;
-      
-      console.log(false)
-
-      // alert('There are no Json Files in this Project...!!')
-    }
-  } 
-
-  Sixth_Function() {
-    this.api.getPackageInfo().subscribe(data => {
-    this.PackageInfo = data;
-    //Fetching necessary data
-    this.dependencies = this.PackageInfo.dependencies;
-    this.devDependencies = this.PackageInfo.devDependencies;
-      })
-  }
-
-  // clear() {
-  //   this.api.clear()
-  // }
-  // methods complete
-
-  
-
 }

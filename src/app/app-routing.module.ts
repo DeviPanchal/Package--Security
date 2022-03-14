@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
+import { RepoDetailsComponent } from './repo-details/repo-details.component';
 import { ReposComponent } from './repos/repos.component';
 
+
 const routes: Routes = [
-  {path: 'App_component', component: AppComponent},
-  { path: 'Repos', component: ReposComponent }
+  { path: 'Repos', component: ReposComponent },
+  { path: 'Repo-details/:project', component: RepoDetailsComponent },
+  { path: '', redirectTo: '/Repos', pathMatch: 'full' },
 ];
 
 @NgModule({

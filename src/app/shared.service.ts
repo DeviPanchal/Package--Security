@@ -1,23 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
+import { ReposComponent } from './repos/repos.component';
+import { MessageService } from './message.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
-  //---------------------------USERS CHOICE---------------------------------//
-  selectedProject!: any;
-  onSelect(project: any) {
-    this.selectedProject = project;
-  }
-//------------------------------------------------------------------------//
+  constructor(private messageService : MessageService) { }
 
   subject = new Subject<any>();
 
-  //repos component
-
-  First_Func() {
+  //-------------------repos component-----------------------------//
+  Initial_repos() {
     this.subject.next (this.getFirst_Func);
   }
 
@@ -25,6 +22,12 @@ export class SharedService {
     return this.subject.asObservable()
   }
   //repos component end
-  
-  constructor() { }
+
+  //---------------users choice--------------------------------//
+  private dataSource: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  data: Observable<string> = this.dataSource.asObservable();
+ 
+  sendproject_to_repoDetails(data: string) {
+  this.dataSource.next(data);
+  }
 }

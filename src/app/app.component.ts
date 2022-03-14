@@ -11,8 +11,7 @@ export class AppComponent implements OnInit {
 
   constructor( private shared: SharedService ){  }
   ngOnInit() {
-    this.shared.First_Func();
-    debugger
+    
   }
 
   //---------------------------USERS CHOICE---------------------------------//
