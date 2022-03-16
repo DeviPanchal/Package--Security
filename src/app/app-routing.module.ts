@@ -5,9 +5,9 @@ import { ReposComponent } from './repos/repos.component';
 
 
 const routes: Routes = [
+  { path: '', redirectTo: '/Repos', pathMatch: 'full' },
   { path: 'Repos', component: ReposComponent },
   { path: 'Repo-details/:project', component: RepoDetailsComponent },
-  { path: '', redirectTo: '/Repos', pathMatch: 'full' },
 ];
 
 @NgModule({

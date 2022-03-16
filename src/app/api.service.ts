@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
  
 @Injectable({
@@ -7,45 +10,51 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiService {
 
+  constructor(
+    private http:HttpClient
+    ) { }
 
-  constructor(private http:HttpClient) { }
-
-  // //------------------------Clearing Message------------------------------
-  // messages: string[] = [];
-
-  // add(message: string) {
-  //   this.messages.push(message);
-  // }
-
-  // clear() {
-  //   this.messages = [];
-  // }
-  // //------------------------------------------------------------------------
-
-  repoName = "https://api.github.com/users/devipanchal"; 
+  repoName = environment.repoName_URL; 
   splitted = this.repoName.split("/"); 
   userName = this.splitted[4]
 
   PROjectName :any
+  DependenciesObject: Object = {};
+  devDependenciesObject: Object = {};
 
-  getUserInfo() {
-    return this.http.get('https://api.github.com/users/' + this.userName);
+  private dataSource: BehaviorSubject<object> = new BehaviorSubject<object>({ });
+  dependencies: Observable<object> = this.dataSource.asObservable();
+
+  sendData(dependencies: object, devDependencies:object) {
+    this.DependenciesObject = dependencies
+    this.devDependenciesObject = devDependencies
+    
   }
 
-  // async getUserInfo() : Promise<Observable<any> {
-  //   return this.http.get('https://api.github.com/users/' + this.userName);
-  // }
+  getUserInfo() {
+    return this.http.get(environment.userInfo_URL + this.userName);
+  }
+
   getReposInfo() {
-    return this.http.get('https://api.github.com/users/'+ this.userName +'/repos')
+    return this.http.get(environment.userInfo_URL+ this.userName +'/repos')
   }
 
    getcontentInfo(Project_Selected : any) {
     this.PROjectName = Project_Selected
-    return this.http.get(`https://api.github.com/repos/${this.userName}/${Project_Selected}/contents`)
+    return this.http.get(`${environment.userRepo_URL}${this.userName}/${Project_Selected}/contents`)
   }
 
   getPackageInfo() {
-    return this.http.get('https://raw.githubusercontent.com/' + this.userName + '/' + this.PROjectName + '/master/package.json')
+    return this.http.get(environment.packageInfo + this.userName + '/' + this.PROjectName + '/master/package.json')
+  }
+
+  to_api(): Observable<any> {
+
+    const obj = {
+      Dependencies: this.DependenciesObject, 
+      devDependencies: this.devDependenciesObject 
+    }
+    return this.http.post('http://localhost:2000/fetching_packages', obj);
   }
 }
 

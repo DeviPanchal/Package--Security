@@ -1,55 +1,56 @@
 /* HeroesComponent's private CSS styles */
-
-a {
-  text-decoration: none;
-  text-align: center;
+body{ 
+  background-color: #ffffff;
 }
 
 .head{
   font-weight: bolder;
-  font-size: 250%;
+  font-size: 150%;
   font-family: cursive;
   text-align: center;
-  background-color: aqua;
-  padding-bottom: 40px;
+  background-color: #2ec4b6;
+  /* padding-bottom: 40px;
   padding-top: 70px;
-  margin-bottom: 20px;
+  margin-bottom: 20px; */
+}
+
+.column{
+  float: left;
 }
 
 .heroes {
     margin: 0 0 2em 0;
-    list-style-type: none;
     padding: 0;
-    width: 15em;
   }
-  
-.heroes li {
-  display: flex;
-}
-  
+
 .heroes .card {
   flex: 1;
   cursor: pointer;
   position: relative;
   border-radius: 7px;
   align-items: stretch;
-  border: solid;
-  border-color: aqua;
+  border-color: #006d77;
+  background-color: #cbf3f0;
   display: flex;
   position: relative;
   margin: 30px;
   padding: 30px;
   float: inline-end;
+  border: 2px solid #006d77;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: all .2s ease-in-out;
+  box-sizing: border-box;
 }
 
 .heroes .card:hover {
   color: #2c3a41;
-  background-color: #e6e6e6;
+  background-color: #cbf3f0;
   left: .1em;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 }
 
 .heroes .card:active {
-  background-color: #525252;
+  background-color: #19d5f7;
   color: #fafafa;
 }
 
@@ -68,10 +69,15 @@ a {
   color: white;
 }
 
-.heroes .name {
-  align-self: center;
+.name {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  text-align: center;
+  text-decoration: rgb(223, 240, 255);
 }
-/* 
-ul{
-  float: left;
-} */
+
+a {
+  text-decoration: none;
+  text-align: center;
+}

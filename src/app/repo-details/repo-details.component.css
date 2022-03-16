@@ -15,7 +15,6 @@
 .mat-card {
   text-align: center;
   background-color: aquamarine;
-  /* padding: 2%; */
   margin-top: 2%
 }
 
@@ -36,4 +35,8 @@ p {
 section {
   border: #2c3a41;
   border-width: 3px;
+}
+
+body {
+  background-color: white;
 }

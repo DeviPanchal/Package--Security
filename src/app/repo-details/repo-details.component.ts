@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from '../api.service';
-import { SharedService } from '../shared.service';
 
 import { Location } from '@angular/common';
 
@@ -13,11 +12,12 @@ import { Location } from '@angular/common';
 export class RepoDetailsComponent implements OnInit {
 
   constructor(
-    private shared: SharedService,
     private api: ApiService,
     private location: Location
     ) 
-    { }
+    {
+      
+     }
 
   ngOnInit(){
     this.Fourth_Function_content_info()
@@ -32,35 +32,22 @@ export class RepoDetailsComponent implements OnInit {
   getSingleObjectRepoInfo: any = [];
 
   dependencies: any = {};
-  devDependencies: any = {}
-
-  URLstring: any;
-  splitted_URLstring: any;
-  projectName: any
-  projectNameArray: any[] = []
-
-  selectedProject?: string;
+  devDependencies: any = {};
+  
   message: any[] = []
   confirm?: boolean;
   notconfirm?: boolean;
-
-  myStorage = window.localStorage;
-
+ 
+  project?: any;
   //variables end
  
 
   //After user selected the Project
 
-  getData() {
-    this.shared.data.subscribe(response => {
-      this.selectedProject = response
-    })
-  }
-
-
   Fourth_Function_content_info() {
-    this.getData();
-    (this.api.getcontentInfo(this.selectedProject)).subscribe(async (data) => {
+     let projectName = localStorage.getItem('Selected Project Name');
+     this.project = projectName;
+    (this.api.getcontentInfo(projectName)).subscribe(async (data) => {
      this.contentInfo = data;
 
      
@@ -77,15 +64,17 @@ export class RepoDetailsComponent implements OnInit {
 
           // this.Sixth_Function_package_fetching()
           this.Sixth_Function_package_fetching()
-          break lable
+          break lable;
           
         }
         else {
           // debugger
           this.notconfirm = true;
-          this.confirm = false
+          this.confirm = false;
+          localStorage.setItem("Dependencies", "null");
+          localStorage.setItem("devDependencies", "null");
+          
         }
-        // this.Fifth_Function_package_file()
       }
     })
   }
@@ -97,11 +86,34 @@ export class RepoDetailsComponent implements OnInit {
     //Fetching necessary data
     this.dependencies = this.PackageInfo.dependencies;
     this.devDependencies = this.PackageInfo.devDependencies;
+    this.sendNewData(this.dependencies, this.devDependencies)
+
+
+    // Packages name only
+    localStorage.setItem("Dependencies", JSON.stringify(Object.keys(this.dependencies)));
+    localStorage.setItem("devDependencies", JSON.stringify(Object.keys(this.devDependencies)));
+
+    // Packages name with version in form of object
+    localStorage.setItem("DependenciesObject", JSON.stringify(this.dependencies));
+    localStorage.setItem("devDependenciesObject", JSON.stringify(this.devDependencies));
+
       })
   }
 
   goBack(): void {
     this.location.back();
+    localStorage.removeItem("Dependencies")
+    localStorage.removeItem("devDependencies")
   }
+
+  sendNewData(data1: object, data2: object) {
+    this.api.sendData(data1, data2);
+  }
+
+  Connect_to_api() {
+    this.api.to_api().subscribe(() => {
+    })
+  }
+
   // methods complete
 }

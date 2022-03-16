@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ApiService } from '../api.service';
 import { SharedService } from '../shared.service';
+
 @Component({
   selector: 'app-repos',
   templateUrl: './repos.component.html',
@@ -24,9 +25,6 @@ export class ReposComponent implements OnInit {
     this.First_Function_repos_url();
   }
 
-  userLoggedIn = true;
-  userloggedOut = true;
-
   //variables
   userInfo: any = {};
 
@@ -37,7 +35,6 @@ export class ReposComponent implements OnInit {
   splitted_URLstring: any;
   projectName: any
   projectNameArray: any[] = []
-
   
   message: any[] = []
 
@@ -51,8 +48,7 @@ export class ReposComponent implements OnInit {
     
     this.projectName = this.splitted_URLstring[5]
     this.projectNameArray.push(this.projectName)
-    
-
+    localStorage.setItem("Users projects name", JSON.stringify(this.projectNameArray));
   }
  
   // 1st method complete
@@ -61,11 +57,12 @@ export class ReposComponent implements OnInit {
   First_Function_repos_url() {
     
     this.api.getUserInfo().subscribe(data => {
-      this.userInfo = data;
-
+      
+    this.userInfo = data;
+    localStorage.setItem("Users Repository Info", JSON.stringify(this.userInfo.repos_url));
+      
       //searching....repos_url
       if (this.userInfo?.repos_url) {
-        
         this.Second_Function_repos_info()
       }
       else{
@@ -83,6 +80,7 @@ export class ReposComponent implements OnInit {
       for (let value of this.repoInfo) {
         this.repoInfoArray = value
         
+
         //seraching....contents_url
         this.Third_Function_content_url()
       }
@@ -104,11 +102,8 @@ export class ReposComponent implements OnInit {
 //---------------------------USERS CHOICE---------------------------------//
   // selectedProject!: any;
   onSelectProject(project: any) {
-    this.projectSend(project)
+    // this.projectSend(project)
+    localStorage.setItem("Selected Project Name", project)
   }
 //------------------------------------------------------------------------//
-
-  projectSend(data: string) {
-    this.shared.sendproject_to_repoDetails(data)
-  }
 }

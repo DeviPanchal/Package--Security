@@ -5,12 +5,16 @@
 
 <body>
    <!--Head-->
-  <mat-toolbar class="head bg-gradient bg-opacity-25" >
-    <span  class="text-center">Projects Name: {{selectedProject}}</span>
+  <mat-toolbar class="head container-fluid bg-gradient bg-opacity-25" >
+    <span  class="text-center col-lg-10 col-md-9 col-sm-8">Projects Name: {{project}}</span>
+    <span class="col-lg-2 col-md-3 col-sm-4">
+      <button type="button" mat-raised-button color="info" class="btn center btn-info btn-sm" (click)="goBack()">Go Back</button>
+    </span>
   </mat-toolbar>
   <mat-divider></mat-divider>
 
-  <button type="button" mat-raised-button color="info" class="btn center btn-info btn-sm" (click)="goBack()">Go Back</button>
+  
+  <button type="button" mat-raised-button color="info" class="btn center btn-info btn-sm" (click)="Connect_to_api()">Connect to Api</button>
 
   <mat-divider></mat-divider>
 
@@ -21,8 +25,8 @@
       <table class="lg-m-2 width-max table table-danger table-bordered table-hover">
         <thead>
           <tr>
-            <th>keys</th>
-            <th>values</th>
+            <th>Name</th>
+            <th>Version</th>
           </tr>
         </thead>
         <tbody>
@@ -40,8 +44,8 @@
     <table class="lg-m-2 width-max table table-danger table-bordered table-hover">
         <thead>
           <tr>
-            <th>keys</th>
-            <th>values</th>
+            <th>Name</th>
+            <th>Version</th>
           </tr>
         </thead>
         <tbody>
@@ -60,7 +64,7 @@
     <ng-template #notconfirm>
       <div class="container-fluid m-3 p-1">
         <img src="/src/assets/thinking-think.gif" alt="Nooo!">
-        <p class="text-center">There is no package json file in <i>{{selectedProject}}</i> project.....!</p>
+        <p class="text-center">There is no package json file in <i>{{project}}</i> project.....!</p>
       </div>
     </ng-template>  
 
