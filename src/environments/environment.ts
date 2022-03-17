@@ -9,8 +9,7 @@ export const environment = {
   userInfo_URL: 'https://api.github.com/users/',
   userRepo_URL: 'https://api.github.com/repos/',
   packageInfo: 'https://raw.githubusercontent.com/',
-
-
+  API_URL: 'http://localhost:1000/fetching_packages',
   
 };
 

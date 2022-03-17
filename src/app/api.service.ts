@@ -21,7 +21,10 @@ export class ApiService {
   PROjectName :any
   DependenciesObject: Object = {};
   devDependenciesObject: Object = {};
+  // Dependencies?:Object
+  // devDependencies?:Object
 
+  demo: any = NetworkInformation
   private dataSource: BehaviorSubject<object> = new BehaviorSubject<object>({ });
   dependencies: Observable<object> = this.dataSource.asObservable();
 
@@ -49,12 +52,9 @@ export class ApiService {
   }
 
   to_api(): Observable<any> {
-
-    const obj = {
-      Dependencies: this.DependenciesObject, 
-      devDependencies: this.devDependenciesObject 
-    }
-    return this.http.post('http://localhost:2000/fetching_packages', obj);
+      let Dependencies= this.DependenciesObject || 'no dependencies found';
+      let devDependencies= this.devDependenciesObject || 'no devDepedencies found'
+    return this.http.post(environment.API_URL, {Dependencies, devDependencies});
   }
 }
 
